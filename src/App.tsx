@@ -2,7 +2,7 @@ import { useState } from "react";
 import { io } from "socket.io-client";
 import Chat from "./components/Chat";
 import './App.css'
-const socket = io("http://localhost:3004");
+const socket = io("https://group-chat-backend-urgu.onrender.com");
 
 const App = () => {
   const [username, setUsername] = useState<string>("");
