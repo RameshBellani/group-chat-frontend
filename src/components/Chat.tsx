@@ -123,7 +123,7 @@ const Chat = ({ socket, username, room }: ChatProps) => {
             }`}
           >
             <div
-              className={`$ {
+              className={`${
                 username === messageContent.author ? "bg-green-500" : "bg-blue-400"
               } text-white rounded-lg p-2 max-w-[80%] break-words`}
             >
