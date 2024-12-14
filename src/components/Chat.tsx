@@ -103,73 +103,81 @@ const Chat = ({ socket, username, room }: ChatProps) => {
   const isUserTyping = (userId: string) => typingUsers.includes(userId);
 
   return (
-    <div className="flex justify-center w-full h-screen">
-      {/* Chat Window */}
-      <div className="flex-1 bg-white shadow-lg p-4 h-full">
-        <div className="flex items-center bg-gray-200 p-4">
-          <CustomAvatar username={username} status="online" />
-          <h2 className="text-xl font-semibold">Live Chat - {username}</h2>
-        </div>
+        <div className="flex flex-col md:flex-row w-full h-screen">
+  {/* Chat Window */}
+  <div className="flex-1 bg-white shadow-lg p-4 h-full flex flex-col">
+    {/* Header */}
+    <div className="flex items-center bg-gray-200 p-4">
+      <CustomAvatar username={username} status="online" />
+      <h2 className="text-xl font-semibold ml-2">Live Chat - {username}</h2>
+    </div>
 
-        {/* Message List */}
-        <div className="p-4 h-[calc(100vh-150px)] overflow-y-auto">
-          <div className="space-y-4">
-            {messageList.map((messageContent, index) => (
-              <div
-                key={index}
-                className={`flex ${username === messageContent.author ? "justify-end" : "justify-start"}`}
-              >
-                <div
-                  className={`${
-                    username === messageContent.author ? "bg-green-500" : "bg-blue-400"
-                  } text-white rounded-lg p-2 max-w-[80%] break-words`}
-                >
-                  <p>{messageContent.message}</p>
-                </div>
-                <div className="flex text-xs mt-1 ml-2">
-                  <span>{messageContent.time}</span>
-                  <span className="ml-1 font-bold">{messageContent.author}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Message Input */}
-        <div className="p-4 flex items-center">
-          <input
-            type="text"
-            className="w-full p-2 border rounded-md"
-            value={currentMessage}
-            placeholder="Type a message..."
-            onChange={(event) => setCurrentMessage(event.target.value)}
-            onKeyPress={(event) => event.key === "Enter" && sendMessage()}
-          />
-          <button
-            className="ml-2 p-2 bg-blue-500 text-white rounded-md"
-            onClick={sendMessage}
+    {/* Message List */}
+    <div className="flex-1 p-4 overflow-y-auto">
+      <div className="space-y-4">
+        {messageList.map((messageContent, index) => (
+          <div
+            key={index}
+            className={`flex ${
+              username === messageContent.author ? "justify-end" : "justify-start"
+            }`}
           >
-            Send
-          </button>
-        </div>
-      </div>
-
-      {/* Online Users List */}
-      <div className="w-[300px] p-4 bg-blue-100 mt-10 md:mt-0 flex-shrink-0 max-w-sm">
-        <h3 className="text-2xl font-bold italic">Online Users</h3>
-        <ul>
-          {users.map((user) => (
-            <li key={user.username} className="flex items-center space-x-2">
-              <CustomAvatar username={user.username} status={user.status} />
-              <span className="text-lg font-semibold">{user.username}</span>
-              <span className="text-sm text-gray-500">({user.status})</span>
-              {isUserTyping(user.id) && <span className="ml-2 text-sm italic">Typing...</span>}
-            </li>
-          ))}
-        </ul>
+            <div
+              className={`$ {
+                username === messageContent.author ? "bg-green-500" : "bg-blue-400"
+              } text-white rounded-lg p-2 max-w-[80%] break-words`}
+            >
+              <p>{messageContent.message}</p>
+            </div>
+            <div className="flex text-xs mt-1 ml-2">
+              <span>{messageContent.time}</span>
+              <span className="ml-1 font-bold">{messageContent.author}</span>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
+
+    {/* Message Input */}
+    <div className="p-4 flex items-center">
+      <input
+        type="text"
+        className="w-full p-2 border rounded-md"
+        value={currentMessage}
+        placeholder="Type a message..."
+        onChange={(event) => setCurrentMessage(event.target.value)}
+        onKeyPress={(event) => event.key === "Enter" && sendMessage()}
+      />
+      <button
+        className="ml-2 p-2 bg-blue-500 text-white rounded-md"
+        onClick={sendMessage}
+      >
+        Send
+      </button>
+    </div>
+  </div>
+
+  {/* Online Users List */}
+  <div
+    className="bg-blue-100 p-4 md:w-[300px] md:flex-shrink-0 hidden md:block"
+  >
+    <h3 className="text-2xl font-bold italic">Online Users</h3>
+    <ul>
+      {users.map((user) => (
+        <li key={user.username} className="flex items-center space-x-2">
+          <CustomAvatar username={user.username} status={user.status} />
+          <span className="text-lg font-semibold">{user.username}</span>
+          <span className="text-sm text-gray-500">({user.status})</span>
+          {isUserTyping(user.id) && (
+            <span className="ml-2 text-sm italic">Typing...</span>
+          )}
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
   );
 };
 
 export default Chat;
+
